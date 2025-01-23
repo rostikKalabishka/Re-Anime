@@ -34,12 +34,13 @@ dependencies:
   #Core
   cupertino_icons: ^1.0.8
   lottie: ^3.3.1
-  flutter_launcher_icons: ^0.14.3
+  # flutter_launcher_icons: ^0.14.3
   auto_route: ^9.3.0+1
   json_annotation: ^4.9.0
   equatable: ^2.0.5
   flutter_bloc: ^9.0.0
   flutter_dotenv: ^5.2.1
+  flutter_svg: ^2.0.17
   logger: ^2.5.0
 
   #Date Storage
@@ -77,6 +78,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/images/
+    - assets/svg/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

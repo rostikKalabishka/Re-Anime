@@ -8,24 +8,30 @@ import 'package:re_anime_app/ui/ui.dart';
 import 'package:re_anime_app/ui/theme/theme.dart';
 
 @RoutePage()
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegistrationScreen extends StatefulWidget {
+  const RegistrationScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   late final TextEditingController emailController;
+  late final TextEditingController usernameController;
+
   late final TextEditingController passwordController;
+  late final TextEditingController confirmPasswordController;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool obscurePassword = true;
+  bool confirmObscurePassword = true;
   @override
   void initState() {
     emailController = TextEditingController();
+    usernameController = TextEditingController();
     passwordController = TextEditingController();
+    confirmPasswordController = TextEditingController();
     super.initState();
   }
 
@@ -82,6 +88,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             FormValidators.emailValidator(value),
                       ),
                       BaseTextFieldWidget(
+                        controller: usernameController,
+                        hintText: 'John Doe',
+                        keyboardType: TextInputType.text,
+                        helperText: 'username',
+                        validator: (value) =>
+                            FormValidators.usernameValidator(value),
+                      ),
+                      BaseTextFieldWidget(
                         controller: passwordController,
                         helperText: 'password',
                         hintText: 'At least 8 characters',
@@ -104,15 +118,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         validator: (value) =>
                             FormValidators.passwordValidator(value),
                       ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: InkWell(
-                            onTap: () {},
-                            child: Text(
-                              'Forgot Password?',
-                              style: theme.textTheme.bodyMedium
-                                  ?.copyWith(color: AppColors.linkColors),
-                            )),
+                      BaseTextFieldWidget(
+                        controller: confirmPasswordController,
+                        helperText: 'confirm password',
+                        hintText: 'At least 8 characters',
+                        keyboardType: TextInputType.text,
+                        obscureText: confirmObscurePassword,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              confirmObscurePassword = !confirmObscurePassword;
+                            });
+                          },
+                          icon: Icon(
+                            confirmObscurePassword
+                                // ? visibilityOutlined
+                                // : visibilityOffOutlined,
+                                ? CupertinoIcons.eye
+                                : CupertinoIcons.eye_slash,
+                          ),
+                        ),
+                        validator: (value) =>
+                            FormValidators.confirmPasswordValidator(
+                                value, passwordController.text),
                       ),
                       BaseButtonWidget(
                         onPressed: () {
@@ -188,12 +216,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Dont you have an account? ',
+                    'Do you already have an account? ',
                     style: theme.textTheme.bodyMedium,
                   ),
                   GestureDetector(
                     onTap: () {},
-                    child: Text('Sign up',
+                    child: Text('Sign in',
                         style: theme.textTheme.bodyMedium
                             ?.copyWith(color: AppColors.linkColors)),
                   )
