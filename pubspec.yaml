@@ -43,6 +43,8 @@ dependencies:
   flutter_svg: ^2.0.17
   logger: ^2.5.0
   carousel_slider: ^5.0.0
+  firebase_core: ^3.10.1
+  firebase_auth: ^5.4.1
 
   #Date Storage
   drift: ^2.24.0

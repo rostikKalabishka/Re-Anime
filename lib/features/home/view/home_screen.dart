@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
         AnimeListsRoute(),
         SearchRoute(),
         UserListRoute(),
-        SettingsRoute()
+        SettingsRoute(),
       ],
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);

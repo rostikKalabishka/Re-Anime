@@ -10,7 +10,7 @@ class SearchCardWidget extends StatelessWidget {
     return BaseContainerWidget(
       padding: EdgeInsets.all(0),
       width: double.infinity,
-      margin: EdgeInsets.all(16),
+      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

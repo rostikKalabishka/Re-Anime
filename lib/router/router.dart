@@ -20,7 +20,8 @@ class AppRouter extends RootStackRouter {
           AutoRoute(page: UserListRoute.page, path: 'user_list'),
           AutoRoute(page: SearchRoute.page, path: 'search'),
           AutoRoute(page: SettingsRoute.page, path: 'settings'),
-          AutoRoute(page: AnimeDetailsRoute.page, path: 'anime_details'),
-        ])
+          // AutoRoute(page: AnimeDetailsRoute.page, path: 'anime_details'),
+        ]),
+        AutoRoute(page: AnimeDetailsRoute.page, path: '/anime_details'),
       ];
 }
