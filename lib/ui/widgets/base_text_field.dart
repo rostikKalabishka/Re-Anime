@@ -9,6 +9,7 @@ class BaseTextFieldWidget extends StatelessWidget {
       this.validator,
       this.keyboardType,
       this.suffixIcon,
+      this.icon,
       this.obscureText});
   final String? hintText;
   final String? helperText;
@@ -17,6 +18,7 @@ class BaseTextFieldWidget extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool? obscureText;
   final Widget? suffixIcon;
+  final Widget? icon;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -25,6 +27,7 @@ class BaseTextFieldWidget extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       decoration: InputDecoration(
+        prefixIcon: icon,
         suffixIcon: suffixIcon,
         labelText: helperText,
         hintText: hintText,

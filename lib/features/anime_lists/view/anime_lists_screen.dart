@@ -32,7 +32,7 @@ class _AnimeListsScreenState extends State<AnimeListsScreen> {
           slivers: [
             SliverAppBar(
               stretch: true,
-              expandedHeight: 200,
+              expandedHeight: 250,
               flexibleSpace: FlexibleSpaceBar(
                 stretchModes: [StretchMode.blurBackground],
                 background: Stack(
@@ -61,12 +61,18 @@ class _AnimeListsScreenState extends State<AnimeListsScreen> {
               ),
             ),
             SliverToBoxAdapter(
-              child: BaseContainerWidget(
-                containerColor: Colors.transparent,
-                padding: const EdgeInsets.only(top: 8, right: 8, left: 8),
-                child: Text(
-                  'Popular anime',
-                  style: theme.textTheme.headlineMedium,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+                child: BaseContainerWidget(
+                  containerColor: theme.scaffoldBackgroundColor,
+                  padding: const EdgeInsets.only(top: 8, right: 8, left: 8),
+                  child: Text(
+                    'Popular anime',
+                    style: theme.textTheme.headlineMedium,
+                  ),
                 ),
               ),
             ),
