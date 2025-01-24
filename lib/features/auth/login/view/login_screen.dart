@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SliverToBoxAdapter(
               child: BaseContainerWidget(
-                borderRadius: 16,
+                borderRadius: BorderRadius.circular(16),
                 margin: EdgeInsets.all(16),
                 padding: EdgeInsets.all(16),
                 child: Form(
@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SliverToBoxAdapter(
               child: BaseContainerWidget(
-                borderRadius: 16,
+                borderRadius: BorderRadius.circular(16),
                 margin: EdgeInsets.all(16),
                 padding: EdgeInsets.all(16),
                 child: Column(

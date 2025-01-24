@@ -17,7 +17,8 @@ class BaseContainerWidget extends StatelessWidget {
   final Widget child;
   final EdgeInsets padding;
   final Color? containerColor;
-  final double? borderRadius;
+
+  final BorderRadiusGeometry? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class BaseContainerWidget extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         color: containerColor ?? theme.cardColor,
-        borderRadius: BorderRadius.circular(borderRadius ?? 16),
+        borderRadius: borderRadius ?? BorderRadius.circular(16),
       ),
       child: child,
     );
