@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:re_anime_app/ui/theme/app_bar_image.dart';
 
 import '../../../ui/ui.dart';
 
+@RoutePage()
 class AnimeListsScreen extends StatefulWidget {
   const AnimeListsScreen({super.key});
 
@@ -84,7 +86,7 @@ class _AnimeListsScreenState extends State<AnimeListsScreen> {
                 },
                 options: CarouselOptions(
                   viewportFraction: 0.6,
-                  aspectRatio: 1,
+                  aspectRatio: 1.2,
                   enlargeCenterPage: true,
                   autoPlay: true,
                   autoPlayAnimationDuration: const Duration(seconds: 5),
