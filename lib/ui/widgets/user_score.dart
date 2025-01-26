@@ -9,6 +9,8 @@ class UserScore extends StatelessWidget {
   final Color lineColor;
   final Color freeColor;
   final double lineWidth;
+  final double? padding;
+  final double? margin;
   const UserScore(
       {super.key,
       this.child,
@@ -16,7 +18,9 @@ class UserScore extends StatelessWidget {
       required this.fillColors,
       required this.lineColor,
       required this.freeColor,
-      required this.lineWidth});
+      required this.lineWidth,
+      this.padding,
+      this.margin});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +33,9 @@ class UserScore extends StatelessWidget {
             lineWidth: lineWidth,
             percent: (percent * 0.1)),
       ),
-      Padding(
-        padding: const EdgeInsets.all(0),
+      Container(
+        padding: EdgeInsets.all(padding ?? 0),
+        margin: EdgeInsets.all(margin ?? 0),
         child: Center(
           child: child,
         ),
@@ -90,7 +95,7 @@ class MyPainter extends CustomPainter {
   }
 
   Rect calculateArcsRect(Size size) {
-    const linesMargin = 3;
+    const linesMargin = 2;
     final offset = lineWidth / 2 + linesMargin;
     final arcRect = Offset(offset, offset) &
         Size(size.width - offset * 2, size.height - offset * 2);

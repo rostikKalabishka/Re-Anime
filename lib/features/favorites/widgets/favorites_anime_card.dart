@@ -1,19 +1,23 @@
+import 'package:flutter/material.dart';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:re_anime_app/api/models/models.dart';
 import 'package:re_anime_app/router/router.dart';
 import 'package:re_anime_app/ui/ui.dart';
 
-class AnimeCardWidget extends StatelessWidget {
-  const AnimeCardWidget(
-      {super.key, required this.anime, this.isForFavoriteList = false});
+class FavoritesAnimeCard extends StatelessWidget {
+  const FavoritesAnimeCard(
+      {super.key, required this.anime, required this.isFavorite});
   final AnimeEntity anime;
-  final bool? isForFavoriteList;
+  final bool isFavorite;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final animeScore = anime.score ?? 0;
+    final year = anime.aired?.from != null
+        ? DateTime.parse(anime.aired!.from!).year.toString()
+        : 'None';
     return GestureDetector(
       onTap: () {
         AutoRouter.of(context).push(AnimeDetailsRoute(id: anime.malId));
@@ -45,11 +49,7 @@ class AnimeCardWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            anime.aired?.from != null
-                                ? DateTime.parse(anime.aired!.from!)
-                                    .year
-                                    .toString()
-                                : 'None',
+                            year,
                             style: theme.textTheme.bodyLarge
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
@@ -58,30 +58,14 @@ class AnimeCardWidget extends StatelessWidget {
                             //   Icons.star,
                             //   color: AppColors.primaryColors,
                             // ),
-                            SizedBox(
-                              width: 48,
-                              height: 48,
-                              child: UserScore(
-                                percent: animeScore,
-                                fillColors: Colors.transparent,
-                                lineColor: Colors.green,
-                                freeColor: Colors.red,
-                                lineWidth: 2,
-                                child: Text(
-                                  animeScore.toStringAsFixed(1),
-                                  style: theme.textTheme.bodyLarge
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                            // SizedBox(
-                            //   width: 5,
-                            // ),
-                            // Text(
-                            //   anime.score.toString(),
-                            //   style: theme.textTheme.bodyLarge
-                            //       ?.copyWith(fontWeight: FontWeight.bold),
-                            // ),
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  isFavorite
+                                      ? Icons.favorite
+                                      : Icons.favorite_outline,
+                                  color: AppColors.primaryColors,
+                                ))
                           ])
                         ],
                       ),

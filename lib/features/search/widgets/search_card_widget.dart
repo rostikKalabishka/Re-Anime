@@ -8,6 +8,7 @@ class SearchCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final animeScore = 8.22;
     return BaseContainerWidget(
       padding: EdgeInsets.all(0),
       width: double.infinity,
@@ -48,26 +49,27 @@ class SearchCardWidget extends StatelessWidget {
                           //   color: Colors.yellowAccent,
                           // ),
                           SizedBox(
-                            width: 32,
-                            height: 32,
+                            width: 48,
+                            height: 48,
                             child: UserScore(
-                              percent: 8.2,
+                              percent: animeScore,
                               fillColors: Colors.transparent,
                               lineColor: Colors.green,
                               freeColor: Colors.red,
-                              lineWidth: 1,
-                              child: const Text(
-                                '%',
-                                style: TextStyle(fontWeight: FontWeight.w600),
+                              lineWidth: 2,
+                              child: Text(
+                                animeScore.toStringAsFixed(1),
+                                style: theme.textTheme.bodyLarge
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
-                          SizedBox(width: 4), // Отступ между звездой и текстом
-                          Text(
-                            '8.2',
-                            style: theme.textTheme.bodyLarge
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
+                          // SizedBox(width: 4),
+                          // Text(
+                          //   '8.2',
+                          //   style: theme.textTheme.bodyLarge
+                          //       ?.copyWith(fontWeight: FontWeight.bold),
+                          // ),
                         ],
                       ),
                     ],
