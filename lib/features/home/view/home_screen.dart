@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
       routes: [
         AnimeListsRoute(),
         SearchRoute(),
-        UserListRoute(),
+        UserFavoritesListRoute(),
         SettingsRoute(),
       ],
       builder: (context, child) {

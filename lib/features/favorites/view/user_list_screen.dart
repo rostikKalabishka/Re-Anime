@@ -4,8 +4,8 @@ import 'package:re_anime_app/api/models/anime.dart';
 import 'package:re_anime_app/ui/ui.dart';
 
 @RoutePage()
-class UserListScreen extends StatelessWidget {
-  const UserListScreen({super.key});
+class UserFavoritesListScreen extends StatelessWidget {
+  const UserFavoritesListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,10 @@ class UserListScreen extends StatelessWidget {
         slivers: [
           SliverAppBar(
             backgroundColor: theme.cardColor,
-            title: Text('My Anime List'),
+            title: Text(
+              'My Anime List',
+              style: theme.textTheme.headlineSmall,
+            ),
           ),
           SliverGrid.builder(
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(

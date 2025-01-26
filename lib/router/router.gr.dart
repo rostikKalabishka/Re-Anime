@@ -157,17 +157,17 @@ class SettingsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [UserListScreen]
-class UserListRoute extends PageRouteInfo<void> {
-  const UserListRoute({List<PageRouteInfo>? children})
-    : super(UserListRoute.name, initialChildren: children);
+/// [UserFavoritesListScreen]
+class UserFavoritesListRoute extends PageRouteInfo<void> {
+  const UserFavoritesListRoute({List<PageRouteInfo>? children})
+    : super(UserFavoritesListRoute.name, initialChildren: children);
 
-  static const String name = 'UserListRoute';
+  static const String name = 'UserFavoritesListRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const UserListScreen();
+      return const UserFavoritesListScreen();
     },
   );
 }

@@ -51,9 +51,24 @@ class AnimeCardWidget extends StatelessWidget {
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           Row(children: [
-                            Icon(
-                              Icons.star,
-                              color: AppColors.primaryColors,
+                            // Icon(
+                            //   Icons.star,
+                            //   color: AppColors.primaryColors,
+                            // ),
+                            SizedBox(
+                              width: 36,
+                              height: 36,
+                              child: UserScore(
+                                percent: anime.score ?? 0,
+                                fillColors: Colors.transparent,
+                                lineColor: Colors.green,
+                                freeColor: Colors.red,
+                                lineWidth: 1,
+                                child: const Text(
+                                  '%',
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                              ),
                             ),
                             Text(
                               anime.score.toString(),
@@ -74,14 +89,12 @@ class AnimeCardWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(0),
                 containerColor: Colors.black54,
                 padding: const EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(anime.title ?? "None",
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyLarge
-                          ?.copyWith(fontWeight: FontWeight.bold)),
-                ),
+                child: Text(anime.titleEnglish ?? anime.title ?? "None",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.bold)),
               ),
             ),
           ],

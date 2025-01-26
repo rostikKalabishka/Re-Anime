@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:re_anime_app/features/anime_details/bloc/anime_details_bloc.dart';
+import 'package:re_anime_app/ui/ui.dart';
 
 @RoutePage()
 class AnimeDetailsScreen extends StatefulWidget {
@@ -25,6 +26,8 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
     context.read<AnimeDetailsBloc>().add(LoadAnimeDetailsEvent(id: widget.id));
     super.initState();
   }
+
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +53,26 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
                 CustomScrollView(
                   slivers: [
                     SliverAppBar(
-                      title: Text(state.animeDetails.title ?? ''),
+                      floating: true,
+                      pinned: true,
+                      title: Text(
+                        state.animeDetails.title ?? '',
+                        style: theme.textTheme.headlineSmall,
+                      ),
+                      actions: [
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isFavorite = !isFavorite;
+                              });
+                            },
+                            icon: Icon(
+                              isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_outline,
+                              color: AppColors.primaryColors,
+                            ))
+                      ],
                     ),
                     SliverToBoxAdapter(
                       child: Padding(
@@ -69,20 +91,27 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
                               ),
                             ),
                             Text(
-                              state.animeDetails.title ?? '',
+                              state.animeDetails.titleEnglish ??
+                                  state.animeDetails.title ??
+                                  '',
+                              textAlign: TextAlign.center,
                               style: theme.textTheme.headlineSmall,
                             ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "Synopsis",
-                                style: theme.textTheme.headlineSmall,
-                              ),
-                            ),
-                            Text(
-                              state.animeDetails.synopsis ?? '',
-                              style: theme.textTheme.bodyMedium,
-                            ),
+                            state.animeDetails.synopsis != null
+                                ? Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Synopsis",
+                                      style: theme.textTheme.headlineSmall,
+                                    ),
+                                  )
+                                : SizedBox.shrink(),
+                            state.animeDetails.synopsis != null
+                                ? Text(
+                                    state.animeDetails.synopsis ?? '',
+                                    style: theme.textTheme.bodyMedium,
+                                  )
+                                : SizedBox.shrink(),
                           ],
                         ),
                       ),

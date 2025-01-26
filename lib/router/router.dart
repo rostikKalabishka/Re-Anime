@@ -18,7 +18,7 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
         AutoRoute(page: HomeRoute.page, path: '/', children: [
           AutoRoute(page: AnimeListsRoute.page, path: 'anime_lists'),
-          AutoRoute(page: UserListRoute.page, path: 'user_list'),
+          AutoRoute(page: UserFavoritesListRoute.page, path: 'user_list'),
           AutoRoute(page: SearchRoute.page, path: 'search'),
           AutoRoute(page: SettingsRoute.page, path: 'settings'),
           // AutoRoute(page: AnimeDetailsRoute.page, path: 'anime_details'),

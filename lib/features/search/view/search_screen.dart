@@ -36,7 +36,10 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 pinned: true,
                 backgroundColor: theme.cardColor,
-                title: Text('Search'),
+                title: Text(
+                  'Search',
+                  style: theme.textTheme.headlineSmall,
+                ),
                 bottom: PreferredSize(
                   preferredSize: Size.fromHeight(80),
                   child: BaseContainerWidget(
@@ -45,6 +48,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       controller: searchController,
                       icon: Icon(Icons.search),
                       hintText: 'Search',
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            searchController.clear();
+                          },
+                          icon: Icon(Icons.clear)),
                     ),
                   ),
                 ),

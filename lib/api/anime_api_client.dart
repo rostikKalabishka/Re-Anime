@@ -20,7 +20,7 @@ class AnimeApiClient {
 
         final animeDetails =
             AnimeEntity.fromJson((json['data'] as Map<String, dynamic>));
-        log(animeDetails.title ?? 'biba ');
+        log(animeDetails.malId.toString());
         return animeDetails;
       } else {
         throw Exception('error');

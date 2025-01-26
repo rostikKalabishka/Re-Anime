@@ -7,11 +7,15 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: Text('Settings'),
+            title: Text(
+              'Settings',
+              style: theme.textTheme.headlineSmall,
+            ),
           )
         ],
       ),

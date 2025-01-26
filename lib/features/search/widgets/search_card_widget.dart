@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:re_anime_app/ui/ui.dart';
+import 'package:re_anime_app/ui/widgets/user_score.dart';
 
 class SearchCardWidget extends StatelessWidget {
   const SearchCardWidget({super.key});
@@ -42,9 +43,24 @@ class SearchCardWidget extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Icon(
-                            Icons.star,
-                            color: Colors.yellowAccent,
+                          // Icon(
+                          //   Icons.star,
+                          //   color: Colors.yellowAccent,
+                          // ),
+                          SizedBox(
+                            width: 32,
+                            height: 32,
+                            child: UserScore(
+                              percent: 8.2,
+                              fillColors: Colors.transparent,
+                              lineColor: Colors.green,
+                              freeColor: Colors.red,
+                              lineWidth: 1,
+                              child: const Text(
+                                '%',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                            ),
                           ),
                           SizedBox(width: 4), // Отступ между звездой и текстом
                           Text(
