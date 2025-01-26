@@ -7,7 +7,7 @@ part of 'anime.dart';
 // **************************************************************************
 
 AnimeEntity _$AnimeEntityFromJson(Map<String, dynamic> json) => AnimeEntity(
-      malId: (json['mal_id'] as num?)?.toInt(),
+      malId: (json['mal_id'] as num).toInt(),
       url: json['url'] as String?,
       images: json['images'] == null
           ? null
@@ -87,38 +87,34 @@ Images _$ImagesFromJson(Map<String, dynamic> json) => Images(
       jpg: json['jpg'] == null
           ? null
           : Jpg.fromJson(json['jpg'] as Map<String, dynamic>),
-      webp: json['webp'] == null
-          ? null
-          : Jpg.fromJson(json['webp'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ImagesToJson(Images instance) => <String, dynamic>{
-      'jpg': instance.jpg,
-      'webp': instance.webp,
+      'jpg': instance.jpg?.toJson(),
     };
 
 Jpg _$JpgFromJson(Map<String, dynamic> json) => Jpg(
-      imageUrl: json['imageUrl'] as String?,
-      smallImageUrl: json['smallImageUrl'] as String?,
-      largeImageUrl: json['largeImageUrl'] as String?,
+      imageUrl: json['image_url'] as String?,
+      smallImageUrl: json['small_image_url'] as String?,
+      largeImageUrl: json['large_image_url'] as String?,
     );
 
 Map<String, dynamic> _$JpgToJson(Jpg instance) => <String, dynamic>{
-      'imageUrl': instance.imageUrl,
-      'smallImageUrl': instance.smallImageUrl,
-      'largeImageUrl': instance.largeImageUrl,
+      'image_url': instance.imageUrl,
+      'small_image_url': instance.smallImageUrl,
+      'large_image_url': instance.largeImageUrl,
     };
 
 Trailer _$TrailerFromJson(Map<String, dynamic> json) => Trailer(
-      youtubeId: json['youtubeId'] as String?,
+      youtubeId: json['youtube_id'] as String?,
       url: json['url'] as String?,
-      embedUrl: json['embedUrl'] as String?,
+      embedUrl: json['embed_url'] as String?,
     );
 
 Map<String, dynamic> _$TrailerToJson(Trailer instance) => <String, dynamic>{
-      'youtubeId': instance.youtubeId,
+      'youtube_id': instance.youtubeId,
       'url': instance.url,
-      'embedUrl': instance.embedUrl,
+      'embed_url': instance.embedUrl,
     };
 
 Titles _$TitlesFromJson(Map<String, dynamic> json) => Titles(
@@ -143,7 +139,7 @@ Aired _$AiredFromJson(Map<String, dynamic> json) => Aired(
 Map<String, dynamic> _$AiredToJson(Aired instance) => <String, dynamic>{
       'from': instance.from,
       'to': instance.to,
-      'prop': instance.prop,
+      'prop': instance.prop?.toJson(),
       'string': instance.string,
     };
 
@@ -157,8 +153,8 @@ Prop _$PropFromJson(Map<String, dynamic> json) => Prop(
     );
 
 Map<String, dynamic> _$PropToJson(Prop instance) => <String, dynamic>{
-      'from': instance.from,
-      'to': instance.to,
+      'from': instance.from?.toJson(),
+      'to': instance.to?.toJson(),
     };
 
 From _$FromFromJson(Map<String, dynamic> json) => From(
@@ -174,14 +170,14 @@ Map<String, dynamic> _$FromToJson(From instance) => <String, dynamic>{
     };
 
 Producers _$ProducersFromJson(Map<String, dynamic> json) => Producers(
-      malId: (json['malId'] as num?)?.toInt(),
+      malId: (json['mal_id'] as num?)?.toInt(),
       type: json['type'] as String?,
       name: json['name'] as String?,
       url: json['url'] as String?,
     );
 
 Map<String, dynamic> _$ProducersToJson(Producers instance) => <String, dynamic>{
-      'malId': instance.malId,
+      'mal_id': instance.malId,
       'type': instance.type,
       'name': instance.name,
       'url': instance.url,

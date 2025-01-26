@@ -3,9 +3,8 @@ import 'package:json_annotation/json_annotation.dart';
 part 'anime.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-@JsonSerializable()
 class AnimeEntity {
-  final int? malId;
+  final int malId;
   final String? url;
   final Images? images;
   final Trailer? trailer;
@@ -76,19 +75,20 @@ class AnimeEntity {
   Map<String, dynamic> toJson() => _$AnimeEntityToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Images {
   final Jpg? jpg;
-  final Jpg? webp;
 
-  const Images({this.jpg, this.webp});
+  const Images({
+    this.jpg,
+  });
 
   factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
 
   Map<String, dynamic> toJson() => _$ImagesToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Jpg {
   final String? imageUrl;
   final String? smallImageUrl;
@@ -101,7 +101,7 @@ class Jpg {
   Map<String, dynamic> toJson() => _$JpgToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Trailer {
   final String? youtubeId;
   final String? url;
@@ -119,7 +119,7 @@ class Trailer {
   Map<String, dynamic> toJson() => _$TrailerToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Titles {
   final String? type;
   final String? title;
@@ -131,7 +131,7 @@ class Titles {
   Map<String, dynamic> toJson() => _$TitlesToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Aired {
   final String? from;
   final String? to;
@@ -145,7 +145,7 @@ class Aired {
   Map<String, dynamic> toJson() => _$AiredToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Prop {
   final From? from;
   final From? to;
@@ -157,7 +157,7 @@ class Prop {
   Map<String, dynamic> toJson() => _$PropToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class From {
   final int? day;
   final int? month;
@@ -170,7 +170,7 @@ class From {
   Map<String, dynamic> toJson() => _$FromToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Producers {
   final int? malId;
   final String? type;

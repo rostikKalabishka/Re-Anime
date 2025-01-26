@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:re_anime_app/features/anime_details/view/anime_details.dart';
 import 'package:re_anime_app/features/anime_lists/view/anime_lists_screen.dart';
 import 'package:re_anime_app/features/auth/login/view/login_screen.dart';

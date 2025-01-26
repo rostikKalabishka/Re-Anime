@@ -12,18 +12,36 @@ part of 'router.dart';
 
 /// generated route for
 /// [AnimeDetailsScreen]
-class AnimeDetailsRoute extends PageRouteInfo<void> {
-  const AnimeDetailsRoute({List<PageRouteInfo>? children})
-    : super(AnimeDetailsRoute.name, initialChildren: children);
+class AnimeDetailsRoute extends PageRouteInfo<AnimeDetailsRouteArgs> {
+  AnimeDetailsRoute({Key? key, required int id, List<PageRouteInfo>? children})
+    : super(
+        AnimeDetailsRoute.name,
+        args: AnimeDetailsRouteArgs(key: key, id: id),
+        initialChildren: children,
+      );
 
   static const String name = 'AnimeDetailsRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const AnimeDetailsScreen();
+      final args = data.argsAs<AnimeDetailsRouteArgs>();
+      return AnimeDetailsScreen(key: args.key, id: args.id);
     },
   );
+}
+
+class AnimeDetailsRouteArgs {
+  const AnimeDetailsRouteArgs({this.key, required this.id});
+
+  final Key? key;
+
+  final int id;
+
+  @override
+  String toString() {
+    return 'AnimeDetailsRouteArgs{key: $key, id: $id}';
+  }
 }
 
 /// generated route for

@@ -1,61 +1,71 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:re_anime_app/api/models/models.dart';
 import 'package:re_anime_app/router/router.dart';
 import 'package:re_anime_app/ui/ui.dart';
 
 class AnimeCardWidget extends StatelessWidget {
-  const AnimeCardWidget({super.key});
+  const AnimeCardWidget({super.key, required this.anime});
+  final AnimeEntity anime;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return InkWell(
+    return GestureDetector(
       onTap: () {
-        AutoRouter.of(context).push(AnimeDetailsRoute());
+        AutoRouter.of(context).push(AnimeDetailsRoute(id: anime.malId));
       },
-      borderRadius: BorderRadius.circular(16),
       child: BaseContainerWidget(
         containerColor: Colors.transparent,
         child: Stack(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                'assets/images/test_image.jpg',
+              child: Image.network(
+                anime.images?.jpg?.imageUrl ??
+                    "https://cdn.myanimelist.net/images/anime/1437/115925.jpg",
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
             ),
-            Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: BaseContainerWidget(
-                    containerColor: Colors.black87,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16),
-                        topRight: Radius.circular(16)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '2017',
-                          style: theme.textTheme.bodyLarge
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        Row(children: [
-                          Icon(
-                            Icons.star,
-                            color: AppColors.primaryColors,
-                          ),
+            anime.aired?.from != null && anime.score != null
+                ? Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: BaseContainerWidget(
+                      containerColor: Colors.black87,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                           Text(
-                            '8.2',
+                            anime.aired?.from != null
+                                ? DateTime.parse(anime.aired!.from!)
+                                    .year
+                                    .toString()
+                                : 'None',
                             style: theme.textTheme.bodyLarge
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
-                        ])
-                      ],
-                    ))),
+                          Row(children: [
+                            Icon(
+                              Icons.star,
+                              color: AppColors.primaryColors,
+                            ),
+                            Text(
+                              anime.score.toString(),
+                              style: theme.textTheme.bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ])
+                        ],
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
             Positioned(
               bottom: 0,
               left: 0,
@@ -66,8 +76,7 @@ class AnimeCardWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text(
-                      'boba sdfdsf dsfsdf dsfdsf dfsdsf dsffds sdffds fsdfds sdfsdf dfsdsf',
+                  child: Text(anime.title ?? "None",
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodyLarge
