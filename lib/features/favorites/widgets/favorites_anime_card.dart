@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
+
 import 'package:re_anime_app/api/models/models.dart';
 import 'package:re_anime_app/router/router.dart';
 import 'package:re_anime_app/ui/ui.dart';

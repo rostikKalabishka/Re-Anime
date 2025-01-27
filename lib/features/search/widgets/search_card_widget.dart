@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:re_anime_app/api/models/anime.dart';
 import 'package:re_anime_app/ui/ui.dart';
-import 'package:re_anime_app/ui/widgets/user_score.dart';
 
 class SearchCardWidget extends StatelessWidget {
-  const SearchCardWidget({super.key});
+  const SearchCardWidget({super.key, required this.anime});
+  final AnimeEntity anime;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final animeScore = 8.22;
+    final animeScore = anime.score ?? 0;
+    final Size _size = MediaQuery.of(context).size;
     return BaseContainerWidget(
       padding: EdgeInsets.all(0),
       width: double.infinity,
@@ -21,7 +23,12 @@ class SearchCardWidget extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: Image.asset('assets/images/test_image.jpg'),
+                child: Image.network(
+                  height: _size.height / 3,
+                  width: _size.width / 1.9,
+                  anime.images?.jpg?.imageUrl ?? '',
+                  fit: BoxFit.cover,
+                ),
               ),
               Positioned(
                 top: 0,
@@ -38,16 +45,14 @@ class SearchCardWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        '2017',
+                        anime.aired?.from != null
+                            ? DateTime.parse(anime.aired!.from!).year.toString()
+                            : 'None',
                         style: theme.textTheme.bodyLarge
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       Row(
                         children: [
-                          // Icon(
-                          //   Icons.star,
-                          //   color: Colors.yellowAccent,
-                          // ),
                           SizedBox(
                             width: 48,
                             height: 48,
@@ -64,12 +69,6 @@ class SearchCardWidget extends StatelessWidget {
                               ),
                             ),
                           ),
-                          // SizedBox(width: 4),
-                          // Text(
-                          //   '8.2',
-                          //   style: theme.textTheme.bodyLarge
-                          //       ?.copyWith(fontWeight: FontWeight.bold),
-                          // ),
                         ],
                       ),
                     ],
@@ -87,15 +86,23 @@ class SearchCardWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Name anime sddfsdfds sdfsdf fdsfdssdf dsffdsfsd sdfdsdsfsddsf dfssddfs',
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.titleMedium,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          anime.titleEnglish ?? anime.title ?? "None",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.titleMedium,
+                        ),
+                      ),
+                      IconButton(onPressed: () {}, icon: Icon(Icons.favorite))
+                    ],
                   ),
                   SizedBox(height: 4),
                   Text(
-                    'FF dsadaysdyas8dyiasdia8sdtasdasdfdsdfsdfsdf sd sdfsdfsdfsdfdfsd dfsdsfdfs fdsdfssdfdsfdsf dsffsdsdf sdfsfdfsd fdssdffds fsdsdfsfsfsdf fsdfsdfs dfssdfdfssdf  sfdfssd dfsfds ',
+                    anime.synopsis ?? "",
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.titleSmall,
                     maxLines: 10,

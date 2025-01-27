@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:re_anime_app/features/search/bloc/search_anime_bloc.dart';
 import 'package:re_anime_app/features/search/widgets/widgets.dart';
+import 'package:re_anime_app/router/router.dart';
 import 'package:re_anime_app/ui/ui.dart';
 
 @RoutePage()
@@ -45,6 +48,13 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: BaseContainerWidget(
                     containerColor: Colors.transparent,
                     child: BaseTextFieldWidget(
+                      onChanged: (text) {
+                        if (text.isNotEmpty) {
+                          context
+                              .read<SearchAnimeBloc>()
+                              .add(SearchAnimeQueryEvent(query: text));
+                        }
+                      },
                       controller: searchController,
                       icon: Icon(Icons.search),
                       hintText: 'Search',
@@ -59,19 +69,43 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ];
           },
-          body: RefreshIndicator.adaptive(
-            onRefresh: _onRefresh,
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  borderRadius: BorderRadius.circular(16),
-                  child: SearchCardWidget(),
-                );
-              },
-            ),
-          ),
+          body: BlocBuilder<SearchAnimeBloc, SearchAnimeState>(
+              builder: (context, state) {
+            if (state is SearchAnimeLoaded) {
+              return RefreshIndicator.adaptive(
+                onRefresh: _onRefresh,
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: state.animeList.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      borderRadius: BorderRadius.circular(16),
+                      child: GestureDetector(
+                        onTap: () {
+                          AutoRouter.of(context).push(AnimeDetailsRoute(
+                              id: state.animeList[index].malId));
+                        },
+                        child: SearchCardWidget(
+                          anime: state.animeList[index],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            } else if (state is SearchAnimeFailure) {
+              return Center(
+                child: Text(state.error.toString()),
+              );
+            } else if (state is SearchAnimeLoading) {
+              return Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
+            }
+            return Center(
+              child: Text('adsadssaddsasa sdasdas'),
+            );
+          }),
         ),
       ),
     );

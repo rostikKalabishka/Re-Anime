@@ -54,10 +54,6 @@ class AnimeCardWidget extends StatelessWidget {
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           Row(children: [
-                            // Icon(
-                            //   Icons.star,
-                            //   color: AppColors.primaryColors,
-                            // ),
                             SizedBox(
                               width: 48,
                               height: 48,
@@ -74,14 +70,6 @@ class AnimeCardWidget extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            // SizedBox(
-                            //   width: 5,
-                            // ),
-                            // Text(
-                            //   anime.score.toString(),
-                            //   style: theme.textTheme.bodyLarge
-                            //       ?.copyWith(fontWeight: FontWeight.bold),
-                            // ),
                           ])
                         ],
                       ),

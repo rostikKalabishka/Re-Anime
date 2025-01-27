@@ -10,6 +10,7 @@ class BaseTextFieldWidget extends StatelessWidget {
       this.keyboardType,
       this.suffixIcon,
       this.icon,
+      this.onChanged,
       this.obscureText});
   final String? hintText;
   final String? helperText;
@@ -19,6 +20,7 @@ class BaseTextFieldWidget extends StatelessWidget {
   final bool? obscureText;
   final Widget? suffixIcon;
   final Widget? icon;
+  final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -26,6 +28,7 @@ class BaseTextFieldWidget extends StatelessWidget {
       validator: validator,
       controller: controller,
       keyboardType: keyboardType,
+      onChanged: onChanged,
       decoration: InputDecoration(
         prefixIcon: icon,
         suffixIcon: suffixIcon,

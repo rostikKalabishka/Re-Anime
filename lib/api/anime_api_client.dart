@@ -31,11 +31,23 @@ class AnimeApiClient {
     }
   }
 
+  Future<List<AnimeEntity>> searchAnime({required String query}) async {
+    try {
+      final animeList = await _getAnimeList(url: '/anime', parameters: {
+        "q": query,
+        // "type": 'tv',
+      });
+
+      return animeList;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<AnimeEntity>> getUpcomingAnimeList() async {
     try {
-      final animeList =
-          await _getAnimeList(url: '${ApiConfig.baseUrl}/seasons/upcoming');
-      print(animeList[0].title);
+      final animeList = await _getAnimeList(url: '/seasons/upcoming');
+
       return animeList;
     } catch (e) {
       rethrow;
@@ -44,8 +56,8 @@ class AnimeApiClient {
 
   Future<List<AnimeEntity>> getSeasonNowAnimeList() async {
     try {
-      final animeList = await _getAnimeList(
-          url: '${ApiConfig.baseUrl}/seasons/now', parameters: {'limit': 25});
+      final animeList =
+          await _getAnimeList(url: '/seasons/now', parameters: {'limit': 25});
 
       return animeList;
     } catch (e) {
@@ -56,13 +68,11 @@ class AnimeApiClient {
   Future<List<AnimeEntity>> getTopAnime(
       {TopAnimeFilter? filter, AnimeType? type}) async {
     try {
-      final animeList = await _getAnimeList(
-          url: '${ApiConfig.baseUrl}/top/anime',
-          parameters: {
-            'limit': 25,
-            "filter": getFilterString(filter),
-            "type": getAnimeTypeString(type)
-          });
+      final animeList = await _getAnimeList(url: '/top/anime', parameters: {
+        'limit': 25,
+        "filter": getFilterString(filter),
+        "type": getAnimeTypeString(type)
+      });
 
       return animeList;
     } catch (e) {
@@ -73,7 +83,8 @@ class AnimeApiClient {
   Future<List<AnimeEntity>> _getAnimeList(
       {required String url, Map<String, dynamic>? parameters}) async {
     try {
-      final response = await _dio.get(url, queryParameters: parameters);
+      final response =
+          await _dio.get(ApiConfig.baseUrl + url, queryParameters: parameters);
 
       if (response.statusCode == 200) {
         final json = response.data;

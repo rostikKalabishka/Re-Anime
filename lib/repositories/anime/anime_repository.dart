@@ -63,4 +63,10 @@ class AnimeRepository implements AnimeRepositoryInterface {
         await apiClient.getTopAnime(filter: TopAnimeFilter.favorite);
     return animeList;
   }
+
+  @override
+  Future<List<AnimeEntity>> searchAnime({required String query}) async {
+    final animeList = await apiClient.searchAnime(query: query);
+    return animeList;
+  }
 }
