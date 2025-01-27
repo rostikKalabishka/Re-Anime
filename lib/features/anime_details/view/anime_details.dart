@@ -4,7 +4,9 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:re_anime_app/features/anime_details/bloc/anime_details_bloc.dart';
+import 'package:re_anime_app/features/anime_details/widgets/widgets.dart';
 import 'package:re_anime_app/ui/ui.dart';
 import 'package:re_anime_app/utils/utils.dart';
 
@@ -27,11 +29,6 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
   void initState() {
     context.read<AnimeDetailsBloc>().add(LoadAnimeDetailsEvent(id: widget.id));
 
-    //shadowColor =
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   _updateShadowColor();
-    // });
     super.initState();
   }
 
@@ -48,6 +45,14 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
       },
       builder: (context, state) {
         if (state is AnimeDetailsLoaded) {
+          final score = state.animeDetails.score ?? 0;
+          final viewers = formatter(
+            state.animeDetails.members,
+          );
+          final favorites = formatter(
+            state.animeDetails.favorites,
+          );
+
           return Scaffold(
             body: Stack(
               children: [
@@ -69,7 +74,9 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
                       floating: true,
                       pinned: true,
                       title: Text(
-                        state.animeDetails.title ?? '',
+                        state.animeDetails.titleEnglish ??
+                            state.animeDetails.title ??
+                            'None',
                         style: theme.textTheme.headlineSmall,
                       ),
                       actions: [
@@ -125,10 +132,15 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
                             Text(
                               state.animeDetails.titleEnglish ??
                                   state.animeDetails.title ??
-                                  '',
+                                  'None',
                               textAlign: TextAlign.center,
                               style: theme.textTheme.headlineSmall,
                             ),
+                            AnimeDetailsStats(
+                                score: score,
+                                rank: state.animeDetails.rank ?? 0,
+                                viewers: viewers,
+                                favorites: favorites),
                             state.animeDetails.synopsis != null
                                 ? Align(
                                     alignment: Alignment.topLeft,
@@ -139,9 +151,12 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
                                   )
                                 : SizedBox.shrink(),
                             state.animeDetails.synopsis != null
-                                ? Text(
-                                    state.animeDetails.synopsis ?? '',
-                                    style: theme.textTheme.bodyMedium,
+                                ? Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      state.animeDetails.synopsis ?? '',
+                                      style: theme.textTheme.bodyMedium,
+                                    ),
                                   )
                                 : SizedBox.shrink(),
                           ],

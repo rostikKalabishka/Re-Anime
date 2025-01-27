@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -19,8 +21,12 @@ Future<void> main() async {
 
   final prefs = await _initPrefs();
 
-  final AppConfig config =
-      AppConfig(preferences: prefs, animeApiClient: animeClient);
+  final AppConfig config = AppConfig(
+      preferences: prefs,
+      animeApiClient: animeClient,
+      firebaseAuth: FirebaseAuth.instance,
+      firebaseFirestore: FirebaseFirestore.instance);
+
   runApp(ReAnimeApp(
     config: config,
   ));

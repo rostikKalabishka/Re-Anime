@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+
 import 'package:re_anime_app/api/models/models.dart';
 import 'package:re_anime_app/repositories/anime/anime.dart';
-import 'package:re_anime_app/utils/helper_function.dart';
 
 part 'anime_details_event.dart';
 part 'anime_details_state.dart';

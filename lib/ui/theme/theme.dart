@@ -28,6 +28,17 @@ final darkTheme = ThemeData(
   ),
 );
 
+final lightTheme = ThemeData(
+  appBarTheme: _appBarTheme,
+  scaffoldBackgroundColor: Colors.white,
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: AppColors.primaryColors,
+    brightness: Brightness.light,
+  ),
+  primaryColor: AppColors.primaryColors,
+  useMaterial3: true,
+);
+
 const _textTheme = TextTheme(
   headlineLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
   headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),

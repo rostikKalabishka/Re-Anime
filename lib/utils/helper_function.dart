@@ -48,3 +48,27 @@ Future<Color?> updatePaletteGenerator({required String url}) async {
   log(url.toString());
   return palette.dominantColor?.color;
 }
+
+// String convertToString(
+//     {required num? dividend,
+//     required num divisor,
+//     required int? toStringAsFixed}) {
+//   String result = '0';
+//   if (dividend != null && dividend > 1000) {
+//     result = (dividend / divisor).toStringAsFixed(toStringAsFixed ?? 0);
+//   } else {
+//     result = dividend != null ? dividend.toString() : '0';
+//   }
+
+//   return result;
+// }
+
+String formatter(int? number) {
+  if (number == null) {
+    return '0';
+  } else if (number > 1000) {
+    return '${number ~/ 1000}k';
+  } else {
+    return '$number';
+  }
+}
