@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'anime_details_bloc.dart';
 
 sealed class AnimeDetailsState extends Equatable {
@@ -14,7 +15,9 @@ class AnimeDetailsLoading extends AnimeDetailsState {}
 class AnimeDetailsLoaded extends AnimeDetailsState {
   final AnimeEntity animeDetails;
 
-  const AnimeDetailsLoaded({required this.animeDetails});
+  const AnimeDetailsLoaded({
+    required this.animeDetails,
+  });
 
   @override
   List<Object> get props => super.props..add(animeDetails);

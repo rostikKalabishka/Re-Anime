@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:re_anime_app/features/anime_details/bloc/anime_details_bloc.dart';
 import 'package:re_anime_app/ui/ui.dart';
+import 'package:re_anime_app/utils/utils.dart';
 
 @RoutePage()
 class AnimeDetailsScreen extends StatefulWidget {
@@ -21,9 +22,16 @@ class AnimeDetailsScreen extends StatefulWidget {
 }
 
 class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
+  Color shadowColorImage = Colors.transparent;
   @override
   void initState() {
     context.read<AnimeDetailsBloc>().add(LoadAnimeDetailsEvent(id: widget.id));
+
+    //shadowColor =
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _updateShadowColor();
+    // });
     super.initState();
   }
 
@@ -32,7 +40,12 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return BlocBuilder<AnimeDetailsBloc, AnimeDetailsState>(
+    return BlocConsumer<AnimeDetailsBloc, AnimeDetailsState>(
+      listener: (context, state) {
+        if (state is AnimeDetailsLoaded) {
+          _updateShadowColor(state);
+        }
+      },
       builder: (context, state) {
         if (state is AnimeDetailsLoaded) {
           return Scaffold(
@@ -83,11 +96,30 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Image.network(
-                                state.animeDetails.images?.jpg?.imageUrl ?? '',
-                                fit: BoxFit.cover,
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: shadowColorImage,
+                                      spreadRadius: 3,
+                                      blurRadius: 7,
+                                      offset: Offset(0, -3),
+                                    ),
+                                    BoxShadow(
+                                      color: shadowColorImage,
+                                      spreadRadius: 3,
+                                      blurRadius: 7,
+                                      offset: Offset(0, 3),
+                                    )
+                                  ]),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.network(
+                                  state.animeDetails.images?.jpg?.imageUrl ??
+                                      '',
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                             Text(
@@ -134,5 +166,18 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
         );
       },
     );
+  }
+
+  Future<void> _updateShadowColor(AnimeDetailsLoaded state) async {
+    final defaultImage = state.animeDetails.images?.jpg?.imageUrl;
+
+    if (defaultImage != null) {
+      final color = await updatePaletteGenerator(url: defaultImage);
+
+      if (color != null) {
+        shadowColorImage = color;
+      }
+      setState(() {});
+    }
   }
 }

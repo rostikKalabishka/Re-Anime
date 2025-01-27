@@ -1,3 +1,8 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:palette_generator/palette_generator.dart';
+
 import 'enums.dart';
 
 String getFilterString(TopAnimeFilter? filter) {
@@ -36,4 +41,10 @@ String getAnimeTypeString(AnimeType? type) {
     default:
       return '';
   }
+}
+
+Future<Color?> updatePaletteGenerator({required String url}) async {
+  var palette = await PaletteGenerator.fromImageProvider(NetworkImage(url));
+  log(url.toString());
+  return palette.dominantColor?.color;
 }

@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:re_anime_app/api/models/models.dart';
 import 'package:re_anime_app/repositories/anime/anime.dart';
+import 'package:re_anime_app/utils/helper_function.dart';
 
 part 'anime_details_event.dart';
 part 'anime_details_state.dart';
@@ -23,8 +27,11 @@ class AnimeDetailsBloc extends Bloc<AnimeDetailsEvent, AnimeDetailsState> {
     try {
       final animeDetails =
           await _animeRepository.getAnimeDetails(animeId: event.id);
+
       emit(
-        AnimeDetailsLoaded(animeDetails: animeDetails),
+        AnimeDetailsLoaded(
+          animeDetails: animeDetails,
+        ),
       );
     } catch (e) {
       emit(
