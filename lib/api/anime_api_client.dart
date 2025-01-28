@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:re_anime_app/api/models/anime.dart';
 
 import '../utils/utils.dart';
 import 'config/api_config.dart';
+import 'models/models.dart';
 
 class AnimeApiClient {
   final _dio = Dio();
@@ -31,14 +31,13 @@ class AnimeApiClient {
     }
   }
 
-  Future<List<AnimeEntity>> searchAnime({required String query}) async {
+  Future<ListResponse> searchAnime(
+      {required String query, required int page}) async {
     try {
-      final animeList = await _getAnimeList(url: '/anime', parameters: {
-        "q": query,
-        // "type": 'tv',
-      });
+      final animeListResponse = await _getAnimeList(
+          url: '/anime', parameters: {"q": query, "page": page});
 
-      return animeList;
+      return animeListResponse;
     } catch (e) {
       rethrow;
     }
@@ -46,9 +45,9 @@ class AnimeApiClient {
 
   Future<List<AnimeEntity>> getUpcomingAnimeList() async {
     try {
-      final animeList = await _getAnimeList(url: '/seasons/upcoming');
+      final animeListResponse = await _getAnimeList(url: '/seasons/upcoming');
 
-      return animeList;
+      return animeListResponse.data;
     } catch (e) {
       rethrow;
     }
@@ -56,10 +55,10 @@ class AnimeApiClient {
 
   Future<List<AnimeEntity>> getSeasonNowAnimeList() async {
     try {
-      final animeList =
+      final animeListResponse =
           await _getAnimeList(url: '/seasons/now', parameters: {'limit': 25});
 
-      return animeList;
+      return animeListResponse.data;
     } catch (e) {
       rethrow;
     }
@@ -68,19 +67,21 @@ class AnimeApiClient {
   Future<List<AnimeEntity>> getTopAnime(
       {TopAnimeFilter? filter, AnimeType? type}) async {
     try {
-      final animeList = await _getAnimeList(url: '/top/anime', parameters: {
-        'limit': 25,
-        "filter": getFilterString(filter),
-        "type": getAnimeTypeString(type)
-      });
+      final animeListResponse = await _getAnimeList(
+          url: '/top/anime',
+          parameters: {
+            'limit': 25,
+            "filter": getFilterString(filter),
+            "type": getAnimeTypeString(type)
+          });
 
-      return animeList;
+      return animeListResponse.data;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<List<AnimeEntity>> _getAnimeList(
+  Future<ListResponse> _getAnimeList(
       {required String url, Map<String, dynamic>? parameters}) async {
     try {
       final response =
@@ -89,12 +90,12 @@ class AnimeApiClient {
       if (response.statusCode == 200) {
         final json = response.data;
 
-        if (json['data'] is List) {
+        if (json is Map<String, dynamic>) {
           final List<AnimeEntity> animeList = (json['data'] as List)
               .map((e) => AnimeEntity.fromJson(e as Map<String, dynamic>))
               .toList();
-
-          return animeList;
+          final pagination = Pagination.fromJson(json['pagination']);
+          return ListResponse(data: animeList, pagination: pagination);
         } else {
           throw Exception(
               "Unexpected data format in response: 'data' is not a list.");

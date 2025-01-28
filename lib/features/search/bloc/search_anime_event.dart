@@ -15,3 +15,5 @@ class SearchAnimeQueryEvent extends SearchAnimeEvent {
   @override
   List<Object> get props => super.props..add(query);
 }
+
+class SearchAnimeLoadNextPageEvent extends SearchAnimeEvent {}

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:re_anime_app/api/models/models.dart';
 
 import 'enums.dart';
 
@@ -71,4 +72,17 @@ String formatter(int? number) {
   } else {
     return '$number';
   }
+}
+
+List<AnimeEntity> uniqueList(List<AnimeEntity> animeList) {
+  final uniqueAnimeList = <AnimeEntity>[];
+  final seenIds = <int>{};
+
+  for (var anime in animeList) {
+    if (!seenIds.contains(anime.malId)) {
+      uniqueAnimeList.add(anime);
+      seenIds.add(anime.malId);
+    }
+  }
+  return uniqueAnimeList;
 }

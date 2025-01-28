@@ -16,8 +16,25 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
-  Future<void> _onRefresh() async {}
+  Future<void> _onRefresh(BuildContext context) async {
+    final text = searchController.text.trim();
+    if (text.isNotEmpty) {
+      context.read<SearchAnimeBloc>().add(SearchAnimeQueryEvent(query: text));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.offset) {
+        context.read<SearchAnimeBloc>().add(SearchAnimeLoadNextPageEvent());
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,23 +90,34 @@ class _SearchScreenState extends State<SearchScreen> {
               builder: (context, state) {
             if (state is SearchAnimeLoaded) {
               return RefreshIndicator.adaptive(
-                onRefresh: _onRefresh,
+                onRefresh: () async {
+                  _onRefresh(context);
+                },
                 child: ListView.builder(
+                  controller: _scrollController,
                   padding: EdgeInsets.zero,
-                  itemCount: state.animeList.length,
+                  itemCount: state.animeList.length + 1,
                   itemBuilder: (context, index) {
-                    return InkWell(
-                      borderRadius: BorderRadius.circular(16),
-                      child: GestureDetector(
-                        onTap: () {
-                          AutoRouter.of(context).push(AnimeDetailsRoute(
-                              id: state.animeList[index].malId));
-                        },
-                        child: SearchCardWidget(
-                          anime: state.animeList[index],
+                    if (index < state.animeList.length) {
+                      return InkWell(
+                        borderRadius: BorderRadius.circular(16),
+                        child: GestureDetector(
+                          onTap: () {
+                            AutoRouter.of(context).push(AnimeDetailsRoute(
+                                id: state.animeList[index].malId));
+                          },
+                          child: SearchCardWidget(
+                            anime: state.animeList[index],
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 32),
+                        child:
+                            Center(child: CircularProgressIndicator.adaptive()),
+                      );
+                    }
                   },
                 ),
               );
@@ -103,7 +131,11 @@ class _SearchScreenState extends State<SearchScreen> {
               );
             }
             return Center(
-              child: Text('adsadssaddsasa sdasdas'),
+              child: Text(
+                'Looking for something? Type it in the search bar!',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.titleMedium,
+              ),
             );
           }),
         ),

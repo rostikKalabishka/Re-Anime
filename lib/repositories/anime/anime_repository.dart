@@ -1,5 +1,6 @@
 import 'package:re_anime_app/api/anime_api_client.dart';
-import 'package:re_anime_app/api/models/anime.dart';
+
+import 'package:re_anime_app/api/models/models.dart';
 import 'package:re_anime_app/repositories/anime/anime_repository_interface.dart';
 import 'package:re_anime_app/utils/utils.dart';
 
@@ -35,15 +36,7 @@ class AnimeRepository implements AnimeRepositoryInterface {
         filter: TopAnimeFilter.upcoming,
       );
 
-      final uniqueAnimeList = <AnimeEntity>[];
-      final seenIds = <int>{};
-
-      for (var anime in animeList) {
-        if (!seenIds.contains(anime.malId)) {
-          uniqueAnimeList.add(anime);
-          seenIds.add(anime.malId);
-        }
-      }
+      List<AnimeEntity> uniqueAnimeList = uniqueList(animeList);
 
       return uniqueAnimeList;
     } catch (e) {
@@ -65,8 +58,10 @@ class AnimeRepository implements AnimeRepositoryInterface {
   }
 
   @override
-  Future<List<AnimeEntity>> searchAnime({required String query}) async {
-    final animeList = await apiClient.searchAnime(query: query);
-    return animeList;
+  Future<ListResponse> searchAnime(
+      {required String query, required int page}) async {
+    final animeListResponse =
+        await apiClient.searchAnime(query: query, page: page);
+    return animeListResponse;
   }
 }
