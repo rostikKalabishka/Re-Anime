@@ -37,6 +37,8 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    ;
+    final size = MediaQuery.of(context).size;
     return BlocConsumer<AnimeDetailsBloc, AnimeDetailsState>(
       listener: (context, state) {
         if (state is AnimeDetailsLoaded) {
@@ -120,12 +122,17 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen> {
                                       offset: Offset(0, 3),
                                     )
                                   ]),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: Image.network(
-                                  state.animeDetails.images?.jpg?.imageUrl ??
-                                      '',
-                                  fit: BoxFit.cover,
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    minHeight: size.height / 2.9,
+                                    maxWidth: size.width / 1.9),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Image.network(
+                                    state.animeDetails.images?.jpg?.imageUrl ??
+                                        '',
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
