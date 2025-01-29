@@ -16,13 +16,30 @@ part 'router.gr.dart';
 class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: HomeRoute.page, path: '/', children: [
-          AutoRoute(page: AnimeListsRoute.page, path: 'anime_lists'),
-          AutoRoute(page: UserFavoritesListRoute.page, path: 'user_list'),
-          AutoRoute(page: SearchRoute.page, path: 'search'),
-          AutoRoute(page: SettingsRoute.page, path: 'settings'),
-          // AutoRoute(page: AnimeDetailsRoute.page, path: 'anime_details'),
-        ]),
-        AutoRoute(page: AnimeDetailsRoute.page, path: '/anime_details'),
+        AutoRoute(page: LoaderRoute.page, path: '/', children: []),
+        AutoRoute(
+          page: HomeRoute.page,
+          path: '/home',
+          children: [
+            AutoRoute(page: AnimeListsRoute.page, path: 'anime_lists'),
+            AutoRoute(page: UserFavoritesListRoute.page, path: 'user_list'),
+            AutoRoute(page: SearchRoute.page, path: 'search'),
+            AutoRoute(page: SettingsRoute.page, path: 'settings'),
+          ],
+        ),
+
+        CustomRoute(
+            page: RegistrationRoute.page,
+            transitionsBuilder: TransitionsBuilders.zoomIn,
+            durationInMilliseconds: 1000,
+            path: '/registration'),
+        CustomRoute(
+            page: LoginRoute.page,
+            transitionsBuilder: TransitionsBuilders.zoomIn,
+            durationInMilliseconds: 1000,
+            path: '/login'),
+        //AutoRoute(page: RegistrationRoute.page, path: '/registration'),
+        // AutoRoute(page: LoginRoute.page, path: '/login'),
+        AutoRoute(page: AnimeDetailsRoute.page, path: '/home/anime_details'),
       ];
 }

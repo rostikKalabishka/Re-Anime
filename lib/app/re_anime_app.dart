@@ -10,9 +10,9 @@ import 'package:re_anime_app/ui/ui.dart';
 
 class ReAnimeApp extends StatefulWidget {
   const ReAnimeApp({
-    Key? key,
+    super.key,
     required this.config,
-  }) : super(key: key);
+  });
 
   final AppConfig config;
   @override

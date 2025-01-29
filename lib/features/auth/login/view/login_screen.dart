@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:re_anime_app/features/auth/login/bloc/login_bloc.dart';
+import 'package:re_anime_app/router/router.dart';
 
 import '../../../../utils/utils.dart';
 import '../../widgets/widgets.dart';
 import 'package:re_anime_app/ui/ui.dart';
-import 'package:re_anime_app/ui/theme/theme.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
@@ -37,176 +39,190 @@ class _LoginScreenState extends State<LoginScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              snap: true,
-              floating: true,
-              // title: Text(
-              //   'Sign in',
-              //   style: theme.textTheme.headlineLarge,
-              // ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 16,
+        body: BlocListener<LoginBloc, LoginState>(
+          listener: (context, state) {
+            if (state is LoginSuccess) {
+              AutoRouter.of(context)
+                  .pushAndPopUntil(LoaderRoute(), predicate: (router) => false);
+            }
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                snap: true,
+                floating: true,
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                width: double.infinity,
-                child: ReAnimeWidget(),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 16,
+                ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                width: double.infinity,
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ReAnimeWidget(),
+                ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: BaseContainerWidget(
-                borderRadius: BorderRadius.circular(16),
-                margin: EdgeInsets.all(16),
-                padding: EdgeInsets.all(16),
-                child: Form(
-                  key: _formKey,
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  width: double.infinity,
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: BaseContainerWidget(
+                  borderRadius: BorderRadius.circular(16),
+                  margin: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      spacing: 16,
+                      children: [
+                        BaseTextFieldWidget(
+                          controller: emailController,
+                          hintText: 'example@gmail.com',
+                          keyboardType: TextInputType.emailAddress,
+                          helperText: 'email',
+                          validator: (value) =>
+                              FormValidators.emailValidator(value),
+                        ),
+                        BaseTextFieldWidget(
+                          controller: passwordController,
+                          helperText: 'password',
+                          hintText: 'At least 8 characters',
+                          keyboardType: TextInputType.text,
+                          obscureText: obscurePassword,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                obscurePassword = !obscurePassword;
+                              });
+                            },
+                            icon: Icon(
+                              obscurePassword
+                                  // ? visibilityOutlined
+                                  // : visibilityOffOutlined,
+                                  ? CupertinoIcons.eye
+                                  : CupertinoIcons.eye_slash,
+                            ),
+                          ),
+                          validator: (value) =>
+                              FormValidators.passwordValidator(value),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: InkWell(
+                              onTap: () {},
+                              child: Text(
+                                'Forgot Password?',
+                                style: theme.textTheme.bodyMedium
+                                    ?.copyWith(color: AppColors.linkColors),
+                              )),
+                        ),
+                        BaseButtonWidget(
+                          onPressed: () {
+                            login(context);
+                          },
+                          child: Text(
+                            'Sign in',
+                            style: theme.textTheme.titleMedium,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Container(
+                  padding: const EdgeInsets.only(top: 16, bottom: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: Container(
+                          height: 1,
+                          color: theme.dividerColor,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Or sign in with ',
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Container(
+                          height: 1,
+                          color: theme.dividerColor,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                    ],
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: BaseContainerWidget(
+                  borderRadius: BorderRadius.circular(16),
+                  margin: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   child: Column(
                     spacing: 16,
                     children: [
-                      BaseTextFieldWidget(
-                        controller: emailController,
-                        hintText: 'example@gmail.com',
-                        keyboardType: TextInputType.emailAddress,
-                        helperText: 'email',
-                        validator: (value) =>
-                            FormValidators.emailValidator(value),
+                      ButtonAuthWidget(
+                        textColor: Colors.black,
+                        color: Colors.white,
+                        image: AppConst.googleSvg,
+                        onTap: () {},
+                        text: 'Sign in with Google',
                       ),
-                      BaseTextFieldWidget(
-                        controller: passwordController,
-                        helperText: 'password',
-                        hintText: 'At least 8 characters',
-                        keyboardType: TextInputType.text,
-                        obscureText: obscurePassword,
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              obscurePassword = !obscurePassword;
-                            });
-                          },
-                          icon: Icon(
-                            obscurePassword
-                                // ? visibilityOutlined
-                                // : visibilityOffOutlined,
-                                ? CupertinoIcons.eye
-                                : CupertinoIcons.eye_slash,
-                          ),
-                        ),
-                        validator: (value) =>
-                            FormValidators.passwordValidator(value),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: InkWell(
-                            onTap: () {},
-                            child: Text(
-                              'Forgot Password?',
-                              style: theme.textTheme.bodyMedium
-                                  ?.copyWith(color: AppColors.linkColors),
-                            )),
-                      ),
-                      BaseButtonWidget(
-                        onPressed: () {
-                          login();
-                        },
-                        child: Text(
-                          'Sign in',
-                          style: theme.textTheme.titleMedium,
-                        ),
+                      ButtonAuthWidget(
+                        color: Colors.black,
+                        image: AppConst.appleSvg,
+                        onTap: () {},
+                        text: 'Sign in with Apple',
                       )
                     ],
                   ),
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: Container(
-                padding: const EdgeInsets.only(top: 16, bottom: 16),
+              SliverToBoxAdapter(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: Container(
-                        height: 1,
-                        color: theme.dividerColor,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
                     Text(
-                      'Or sign in with ',
+                      'Dont you have an account? ',
                       style: theme.textTheme.bodyMedium,
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Container(
-                        height: 1,
-                        color: theme.dividerColor,
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                  ],
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: BaseContainerWidget(
-                borderRadius: BorderRadius.circular(16),
-                margin: EdgeInsets.all(16),
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  spacing: 16,
-                  children: [
-                    ButtonAuthWidget(
-                      textColor: Colors.black,
-                      color: Colors.white,
-                      image: AppConst.googleSvg,
-                      onTap: () {},
-                      text: 'Sign in with Google',
-                    ),
-                    ButtonAuthWidget(
-                      color: Colors.black,
-                      image: AppConst.appleSvg,
-                      onTap: () {},
-                      text: 'Sign in with Apple',
+                    GestureDetector(
+                      onTap: () {
+                        AutoRouter.of(context).pushAndPopUntil(
+                            RegistrationRoute(),
+                            predicate: (router) => false);
+                      },
+                      child: Text('Sign up',
+                          style: theme.textTheme.bodyMedium
+                              ?.copyWith(color: AppColors.linkColors)),
                     )
                   ],
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Dont you have an account? ',
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Text('Sign up',
-                        style: theme.textTheme.bodyMedium
-                            ?.copyWith(color: AppColors.linkColors)),
-                  )
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  void login() {
-    if (_formKey.currentState!.validate()) {}
+  void login(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      final String email = emailController.text.trim();
+      final String password = passwordController.text.trim();
+      context
+          .read<LoginBloc>()
+          .add(LoginRequired(email: email, password: password));
+    }
   }
 }

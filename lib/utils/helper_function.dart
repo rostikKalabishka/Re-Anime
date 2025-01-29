@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:re_anime_app/api/models/models.dart';
@@ -49,20 +47,6 @@ Future<Color?> updatePaletteGenerator({required String url}) async {
 
   return palette.dominantColor?.color;
 }
-
-// String convertToString(
-//     {required num? dividend,
-//     required num divisor,
-//     required int? toStringAsFixed}) {
-//   String result = '0';
-//   if (dividend != null && dividend > 1000) {
-//     result = (dividend / divisor).toStringAsFixed(toStringAsFixed ?? 0);
-//   } else {
-//     result = dividend != null ? dividend.toString() : '0';
-//   }
-
-//   return result;
-// }
 
 String formatter(int? number) {
   if (number == null) {

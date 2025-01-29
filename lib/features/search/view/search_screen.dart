@@ -115,6 +115,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   child: CircularProgressIndicator.adaptive()),
                             );
                           }
+                          return SizedBox.shrink();
                         },
                       )
                     : DefaultTextWidget(

@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -8,6 +6,8 @@ import 'package:re_anime_app/app/app_config.dart';
 import 'package:re_anime_app/app/re_anime_app.dart';
 import 'package:re_anime_app/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'api/user_api_client.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,11 +21,12 @@ Future<void> main() async {
 
   final prefs = await _initPrefs();
 
+  final UserApiClient userApiClient = UserApiClient();
+
   final AppConfig config = AppConfig(
       preferences: prefs,
       animeApiClient: animeClient,
-      firebaseAuth: FirebaseAuth.instance,
-      firebaseFirestore: FirebaseFirestore.instance);
+      userApiClient: userApiClient);
 
   runApp(ReAnimeApp(
     config: config,

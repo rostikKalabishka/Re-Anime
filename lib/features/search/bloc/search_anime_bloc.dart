@@ -14,9 +14,8 @@ class SearchAnimeBloc extends Bloc<SearchAnimeEvent, SearchAnimeState> {
   final AnimeRepositoryInterface _animeRepository;
 
   Timer? searchDebounce;
-  String _currentQuery = ''; // Храним текущий запрос
+  String _currentQuery = '';
   int _currentPage = 1;
-  String _processingQuery = ''; // Храним обрабатываемый запрос
 
   List<AnimeEntity> animeList = [];
 

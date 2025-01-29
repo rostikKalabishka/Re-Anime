@@ -41,12 +41,14 @@ dependencies:
   flutter_bloc: ^9.0.0
   flutter_dotenv: ^5.2.1
   flutter_svg: ^2.0.17
+  uuid: ^4.5.1
 
   carousel_slider: ^5.0.0
 
   palette_generator: ^0.3.3+5
   bloc: ^9.0.0
   bloc_concurrency: ^0.3.0
+  rxdart: ^0.28.0
 
   #Date Storage
   #isar

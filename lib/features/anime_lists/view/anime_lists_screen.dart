@@ -16,13 +16,14 @@ class AnimeListsScreen extends StatefulWidget {
 }
 
 class _AnimeListsScreenState extends State<AnimeListsScreen> {
-  final CarouselController _carouselController = CarouselController();
+  late final CarouselSliderController _carouselController;
   final Cubic customCurves = const Cubic(0.0, 0.0, 0.0, 0.0);
   late String imageAppBar;
   @override
   void initState() {
+    _carouselController = CarouselSliderController();
     imageAppBar = AppBarImage.randomAppBarImage();
-    context.read<AnimeListsBloc>().add(LoadAnimeListEvent());
+    //context.read<AnimeListsBloc>().add(LoadAnimeListEvent());
     super.initState();
   }
 
@@ -87,6 +88,7 @@ class _AnimeListsScreenState extends State<AnimeListsScreen> {
                   ),
                   SliverToBoxAdapter(
                     child: CarouselSlider.builder(
+                      carouselController: _carouselController,
                       itemCount: state.seasonNowAnimeList.length,
                       itemBuilder: (context, int index, realIndex) {
                         return AnimeCardWidget(
