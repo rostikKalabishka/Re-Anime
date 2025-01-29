@@ -46,6 +46,7 @@ dependencies:
 
   palette_generator: ^0.3.3+5
   bloc: ^9.0.0
+  bloc_concurrency: ^0.3.0
 
   #Date Storage
   #isar

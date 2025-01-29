@@ -17,3 +17,5 @@ class SearchAnimeQueryEvent extends SearchAnimeEvent {
 }
 
 class SearchAnimeLoadNextPageEvent extends SearchAnimeEvent {}
+
+class SearchAnimeClearEvent extends SearchAnimeEvent {}

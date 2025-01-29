@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:re_anime_app/api/models/anime.dart';
 import 'package:re_anime_app/repositories/anime/anime.dart';
@@ -26,25 +27,33 @@ class SearchAnimeBloc extends Bloc<SearchAnimeEvent, SearchAnimeState> {
         await _searchAnime(event, emit);
       } else if (event is SearchAnimeLoadNextPageEvent) {
         await _loadNextPage(event, emit);
+      } else if (event is SearchAnimeClearEvent) {
+        _clear(emit);
       }
-    });
+    }, transformer: sequential());
   }
 
   Future<void> _searchAnime(SearchAnimeQueryEvent event, emit) async {
-    emit(SearchAnimeLoading());
+    if (state is! SearchAnimeLoaded) {
+      emit(SearchAnimeLoading());
+    }
     try {
       searchDebounce?.cancel();
       final completer = Completer<void>();
-      searchDebounce = Timer(const Duration(milliseconds: 200), () async {
+      searchDebounce = Timer(const Duration(milliseconds: 500), () async {
         _currentQuery = event.query;
         clearState();
+        if (_currentQuery.isNotEmpty) {
+          final animeResponse = await _animeRepository.searchAnime(
+              query: _currentQuery, page: _currentPage);
+          animeList.addAll(uniqueList([...animeResponse.data]));
 
-        final animeResponse = await _animeRepository.searchAnime(
-            query: _currentQuery, page: _currentPage);
-        animeList.addAll(uniqueList([...animeResponse.data]));
-        emit(SearchAnimeLoaded(
-            animeList: List<AnimeEntity>.from(animeList),
-            loadNextPage: animeResponse.pagination.canLoadNextPage));
+          emit(SearchAnimeLoaded(
+              animeList: List<AnimeEntity>.from(animeList),
+              loadNextPage: animeResponse.pagination.canLoadNextPage));
+        } else {
+          emit(SearchAnimeInitial());
+        }
         completer.complete();
       });
 
@@ -78,5 +87,14 @@ class SearchAnimeBloc extends Bloc<SearchAnimeEvent, SearchAnimeState> {
   void clearState() {
     _currentPage = 1;
     animeList.clear();
+  }
+
+  void _clear(emit) {
+    if (state is! SearchAnimeLoaded) {
+      emit(SearchAnimeLoading());
+    }
+    emit(SearchAnimeLoaded(
+      animeList: [],
+    ));
   }
 }

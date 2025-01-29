@@ -46,7 +46,7 @@ String getAnimeTypeString(AnimeType? type) {
 
 Future<Color?> updatePaletteGenerator({required String url}) async {
   var palette = await PaletteGenerator.fromImageProvider(NetworkImage(url));
-  log(url.toString());
+
   return palette.dominantColor?.color;
 }
 
