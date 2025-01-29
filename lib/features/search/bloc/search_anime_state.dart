@@ -13,12 +13,12 @@ final class SearchAnimeLoading extends SearchAnimeState {}
 
 final class SearchAnimeLoaded extends SearchAnimeState {
   final List<AnimeEntity> animeList;
-  final bool? loadNextPage;
+  final bool loadNextPage;
 
   const SearchAnimeLoaded({required this.animeList, this.loadNextPage = false});
 
   @override
-  List<Object> get props => [animeList, loadNextPage ?? false];
+  List<Object> get props => [animeList, loadNextPage];
 }
 
 final class SearchAnimeFailure extends SearchAnimeState {

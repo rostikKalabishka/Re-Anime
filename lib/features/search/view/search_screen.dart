@@ -65,32 +65,19 @@ class _SearchScreenState extends State<SearchScreen> {
                 bottom: PreferredSize(
                   preferredSize: Size.fromHeight(80),
                   child: BaseContainerWidget(
-                    containerColor: Colors.transparent,
-                    child: BaseTextFieldWidget(
-                      onChanged: (text) {
-                        if (text.trim().isNotEmpty) {
-                          context
-                              .read<SearchAnimeBloc>()
-                              .add(SearchAnimeQueryEvent(query: text));
-                        } else {
-                          context
-                              .read<SearchAnimeBloc>()
-                              .add(SearchAnimeClearEvent());
-                        }
-                      },
-                      controller: searchController,
-                      icon: Icon(Icons.search),
-                      hintText: 'Search',
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            searchController.clear();
-                            context
-                                .read<SearchAnimeBloc>()
-                                .add(SearchAnimeClearEvent());
-                          },
-                          icon: Icon(Icons.clear)),
-                    ),
-                  ),
+                      containerColor: Colors.transparent,
+                      child: BaseTextFieldWidget(
+                        onChanged: (text) {
+                          onChangeTextFiled(text, context);
+                        },
+                        controller: searchController,
+                        icon: Icon(Icons.search),
+                        hintText: 'Search',
+                        suffixIcon: IconButton(
+                          onPressed: _clearTextFiled,
+                          icon: Icon(Icons.clear),
+                        ),
+                      )),
                 ),
               ),
             ];
@@ -121,7 +108,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ),
                               ),
                             );
-                          } else {
+                          } else if (state.loadNextPage) {
                             return const Padding(
                               padding: EdgeInsets.symmetric(vertical: 32),
                               child: Center(
@@ -130,7 +117,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           }
                         },
                       )
-                    : DefaultText(
+                    : DefaultTextWidget(
                         text: 'There is no response to your request',
                       ),
               );
@@ -143,7 +130,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: CircularProgressIndicator.adaptive(),
               );
             }
-            return DefaultText(
+            return DefaultTextWidget(
               text: 'Looking for something? Type it in the search bar!',
             );
           }),
@@ -151,24 +138,23 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
     );
   }
-}
 
-class DefaultText extends StatelessWidget {
-  const DefaultText({
-    super.key,
-    required this.text,
-  });
-  final String text;
+  void onChangeTextFiled(String text, BuildContext context) {
+    final trimmedText = text.trim();
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Center(
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: theme.textTheme.titleMedium,
-      ),
-    );
+    if (trimmedText.isEmpty) {
+      context.read<SearchAnimeBloc>().add(SearchAnimeClearEvent());
+    } else {
+      context
+          .read<SearchAnimeBloc>()
+          .add(SearchAnimeQueryEvent(query: trimmedText));
+    }
+  }
+
+  void _clearTextFiled() {
+    if (searchController.text.isEmpty) return;
+    searchController.clear();
+
+    context.read<SearchAnimeBloc>().add(SearchAnimeClearEvent());
   }
 }
