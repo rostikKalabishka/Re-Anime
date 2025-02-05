@@ -219,16 +219,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           },
                           text: 'Sign in with Google',
                         ),
-                        ButtonAuthWidget(
-                          color: Colors.black,
-                          image: AppConst.appleSvg,
-                          onTap: () {
-                            context
-                                .read<AuthByAnotherBloc>()
-                                .add(AuthWithAppleEvent());
-                          },
-                          text: 'Sign in with Apple',
-                        )
+                        // ButtonAuthWidget(
+                        //   color: Colors.black,
+                        //   image: AppConst.appleSvg,
+                        //   onTap: () {
+                        //     context
+                        //         .read<AuthByAnotherBloc>()
+                        //         .add(AuthWithAppleEvent());
+                        //   },
+                        //   text: 'Sign in with Apple',
+                        // )
                       ],
                     ),
                   ),

@@ -24,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
           BlocConsumer<LogOutBloc, LogOutState>(
             listener: (BuildContext context, state) {
               if (state is LogOutSuccess) {
-                AutoRouter.of(context).pushAndPopUntil(LoginRoute(),
+                AutoRouter.of(context).pushAndPopUntil(LoaderRoute(),
                     predicate: (router) => false);
               }
             },

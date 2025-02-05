@@ -7,27 +7,35 @@ import 'package:re_anime_app/router/router.dart';
 @RoutePage()
 class LoaderScreen extends StatelessWidget {
   const LoaderScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthenticationBloc, AuthenticationState>(
-      listener: (context, state) {
-        navigateTo(context, state);
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      builder: (context, state) {
+        debugPrint("Authentication state updated: ${state.status}");
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          navigateTo(context, state);
+        });
+
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator.adaptive(),
+          ),
+        );
       },
-      child: const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator.adaptive(),
-        ),
-      ),
     );
   }
 
   void navigateTo(BuildContext context, AuthenticationState state) {
+    final router = AutoRouter.of(context);
+
     if (state.status == AuthenticationStatus.authenticated) {
-      AutoRouter.of(context)
-          .pushAndPopUntil(HomeRoute(), predicate: (router) => false);
-    } else {
-      AutoRouter.of(context)
-          .pushAndPopUntil(const LoginRoute(), predicate: (router) => false);
+      debugPrint("Navigating to HomeRoute");
+      router.replaceAll([HomeRoute()]);
+    } else if (state.status == AuthenticationStatus.unauthenticated) {
+      debugPrint("Navigating to LoginRoute");
+      router.replaceAll([const LoginRoute()]);
     }
   }
 }

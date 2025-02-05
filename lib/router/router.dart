@@ -11,13 +11,17 @@ import 'package:re_anime_app/features/loader/view/loader_screen.dart';
 import 'package:re_anime_app/features/search/view/search_screen.dart';
 import 'package:re_anime_app/features/settings/view/settings_screen.dart';
 
+import '../features/onboarding/onboarding.dart';
+
 part 'router.gr.dart';
 
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: LoaderRoute.page, path: '/', children: []),
+        AutoRoute(page: LoaderRoute.page, path: '/', children: [
+          AutoRoute(page: OnboardingRoute.page, path: 'onboarding'),
+        ]),
         AutoRoute(
           page: HomeRoute.page,
           path: '/home',
@@ -42,6 +46,7 @@ class AppRouter extends RootStackRouter {
         ),
         //AutoRoute(page: RegistrationRoute.page, path: '/registration'),
         // AutoRoute(page: LoginRoute.page, path: '/login'),
+
         AutoRoute(page: AnimeDetailsRoute.page, path: '/home/anime_details'),
         AutoRoute(
             page: ForgotPasswordRoute.page, path: '/login/forgot_password'),
