@@ -5,6 +5,7 @@ import 'package:re_anime_app/app/repository_container.dart';
 import 'package:re_anime_app/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:re_anime_app/blocs/authorization_by_another_bloc/auth_by_another_bloc.dart';
 import 'package:re_anime_app/blocs/logout_bloc/log_out_bloc.dart';
+import 'package:re_anime_app/blocs/reset_password_bloc/reset_password_bloc.dart';
 import 'package:re_anime_app/blocs/settings_cubit/settings_cubit.dart';
 import 'package:re_anime_app/features/anime_details/bloc/anime_details_bloc.dart';
 import 'package:re_anime_app/features/anime_lists/bloc/anime_lists_bloc.dart';
@@ -80,6 +81,11 @@ class AppInitializer extends StatelessWidget {
                 create: (context) => SettingsCubit(
                   settingsRepository:
                       context.read<SettingsRepositoryInterface>(),
+                ),
+              ),
+              BlocProvider(
+                create: (context) => ResetPasswordBloc(
+                  userRepository: context.read<UserRepositoryInterface>(),
                 ),
               ),
             ],

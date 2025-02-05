@@ -12,11 +12,14 @@ class ReAnimeWidget extends StatelessWidget {
       children: [
         Text(
           "Re:",
-          style: theme.textTheme.headlineLarge
-              ?.copyWith(color: AppColors.primaryColors, fontSize: 64),
+          style: theme.textTheme.headlineLarge?.copyWith(
+              color: AppColors.primaryColors,
+              fontSize: 64,
+              fontStyle: FontStyle.italic),
         ),
         Text("Anime",
-            style: theme.textTheme.headlineLarge?.copyWith(fontSize: 64)),
+            style: theme.textTheme.headlineLarge
+                ?.copyWith(fontSize: 64, fontStyle: FontStyle.italic)),
       ],
     );
   }

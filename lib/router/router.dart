@@ -34,21 +34,11 @@ class AppRouter extends RootStackRouter {
             AutoRoute(page: SettingsRoute.page, path: 'settings'),
           ],
         ),
-
-        CustomRoute(
-            page: RegistrationRoute.page,
-            transitionsBuilder: TransitionsBuilders.zoomIn,
-            durationInMilliseconds: 1000,
-            path: '/registration'),
-        CustomRoute(
+        AutoRoute(page: RegistrationRoute.page, path: '/registration'),
+        AutoRoute(
           page: LoginRoute.page,
-          transitionsBuilder: TransitionsBuilders.zoomIn,
-          durationInMilliseconds: 1000,
           path: '/login',
         ),
-        //AutoRoute(page: RegistrationRoute.page, path: '/registration'),
-        // AutoRoute(page: LoginRoute.page, path: '/login'),
-
         AutoRoute(page: AnimeDetailsRoute.page, path: '/home/anime_details'),
         AutoRoute(
             page: ForgotPasswordRoute.page, path: '/login/forgot_password'),
