@@ -23,13 +23,13 @@ class _AnimeListsScreenState extends State<AnimeListsScreen> {
   void initState() {
     _carouselController = CarouselSliderController();
     imageAppBar = AppBarImage.randomAppBarImage();
-    //context.read<AnimeListsBloc>().add(LoadAnimeListEvent());
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
+    final Size _size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
     return BlocBuilder<AnimeListsBloc, AnimeListsState>(
       builder: (context, state) {

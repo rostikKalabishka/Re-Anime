@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:re_anime_app/blocs/authorization_by_another_bloc/auth_by_another_bloc.dart';
 import 'package:re_anime_app/features/auth/login/bloc/login_bloc.dart';
 import 'package:re_anime_app/router/router.dart';
 
@@ -112,7 +113,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         Align(
                           alignment: Alignment.bottomRight,
                           child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                AutoRouter.of(context).push(
+                                  ForgotPasswordRoute(),
+                                );
+                              },
                               child: Text(
                                 'Forgot Password?',
                                 style: theme.textTheme.bodyMedium
@@ -164,27 +169,43 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SliverToBoxAdapter(
-                child: BaseContainerWidget(
-                  borderRadius: BorderRadius.circular(16),
-                  margin: EdgeInsets.all(16),
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    spacing: 16,
-                    children: [
-                      ButtonAuthWidget(
-                        textColor: Colors.black,
-                        color: Colors.white,
-                        image: AppConst.googleSvg,
-                        onTap: () {},
-                        text: 'Sign in with Google',
-                      ),
-                      ButtonAuthWidget(
-                        color: Colors.black,
-                        image: AppConst.appleSvg,
-                        onTap: () {},
-                        text: 'Sign in with Apple',
-                      )
-                    ],
+                child: BlocListener<AuthByAnotherBloc, AuthByAnotherState>(
+                  listener: (BuildContext context, state) {
+                    if (state is AuthByAnotherSuccess) {
+                      AutoRouter.of(context).pushAndPopUntil(LoaderRoute(),
+                          predicate: (router) => false);
+                    }
+                  },
+                  child: BaseContainerWidget(
+                    borderRadius: BorderRadius.circular(16),
+                    margin: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      spacing: 16,
+                      children: [
+                        ButtonAuthWidget(
+                          textColor: Colors.black,
+                          color: Colors.white,
+                          image: AppConst.googleSvg,
+                          onTap: () {
+                            context
+                                .read<AuthByAnotherBloc>()
+                                .add(AuthWithGoogleEvent());
+                          },
+                          text: 'Sign in with Google',
+                        ),
+                        ButtonAuthWidget(
+                          color: Colors.black,
+                          image: AppConst.appleSvg,
+                          onTap: () {
+                            context
+                                .read<AuthByAnotherBloc>()
+                                .add(AuthWithAppleEvent());
+                          },
+                          text: 'Sign in with Apple',
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

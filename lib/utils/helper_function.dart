@@ -51,6 +51,8 @@ Future<Color?> updatePaletteGenerator({required String url}) async {
 String formatter(int? number) {
   if (number == null) {
     return '0';
+  } else if (number > 1000000) {
+    return '${(number / 1000000).toStringAsFixed(2)}kk';
   } else if (number > 1000) {
     return '${number ~/ 1000}k';
   } else {

@@ -30,36 +30,29 @@ class UserRepository implements UserRepositoryInterface {
   }
 
   @override
-  Future<void> updateUserInfo(UserEntity userEntity) {
-    // TODO: implement updateUserInfo
-    throw UnimplementedError();
+  Future<void> updateUserInfo(UserEntity userEntity) async {
+    await userApiClient.updateUserInfo(userEntity: userEntity);
   }
 
   @override
-  Future<String> uploadPicture(String file, String userId) {
-    // TODO: implement uploadPicture
-    throw UnimplementedError();
+  Future<String> uploadPicture(String file, String userId) async {
+    // await userApiClient.updateUserInfo(userEntity: userEntity)
+    return '';
   }
 
   @override
   Stream<UserEntity> get user => userApiClient.user;
 
   @override
-  Future<void> singInWithApple() {
-    // TODO: implement singInWithApple
-    throw UnimplementedError();
-  }
+  Future<void> singInWithApple() async => await userApiClient.signInWithApple();
 
   @override
-  Future<void> singInWithGoogle() {
-    // TODO: implement singInWithGoogle
-    throw UnimplementedError();
-  }
+  Future<void> singInWithGoogle() async =>
+      await userApiClient.signinWithGoogle();
 
   @override
-  Future<UserEntity> getMyUser(String myUserId) {
-    // TODO: implement getMyUser
-    throw UnimplementedError();
+  Future<UserEntity> getMyUser(String myUserId) async {
+    return await userApiClient.getUserById(userId: myUserId);
   }
 
   @override

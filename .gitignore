@@ -39,6 +39,10 @@ android/app/google-services.json
 ios/firebase_app_id_file.json
 lib/firebase_options.dart
 ios/Runner/GoogleService-Info.plist
+ios/Runner/Info.plist
+ios/Flutter/AppFrameworkInfo.plist
+ios/Flutter/Debug.xcconfig
+ios/Flutter/Release.xcconfig
 
 # Symbolication related
 app.*.symbols

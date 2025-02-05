@@ -61,6 +61,22 @@ class AnimeListsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ForgotPasswordScreen]
+class ForgotPasswordRoute extends PageRouteInfo<void> {
+  const ForgotPasswordRoute({List<PageRouteInfo>? children})
+    : super(ForgotPasswordRoute.name, initialChildren: children);
+
+  static const String name = 'ForgotPasswordRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ForgotPasswordScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:re_anime_app/app/app_config.dart';
 import 'package:re_anime_app/app/repository_container.dart';
 import 'package:re_anime_app/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:re_anime_app/blocs/authorization_by_another_bloc/auth_by_another_bloc.dart';
 import 'package:re_anime_app/blocs/logout_bloc/log_out_bloc.dart';
 import 'package:re_anime_app/features/anime_details/bloc/anime_details_bloc.dart';
 import 'package:re_anime_app/features/anime_lists/bloc/anime_lists_bloc.dart';
@@ -53,6 +54,11 @@ class AppInitializer extends StatelessWidget {
               ),
               BlocProvider(
                 create: (context) => LogOutBloc(
+                  userRepository: context.read<UserRepositoryInterface>(),
+                ),
+              ),
+              BlocProvider(
+                create: (context) => AuthByAnotherBloc(
                   userRepository: context.read<UserRepositoryInterface>(),
                 ),
               ),
