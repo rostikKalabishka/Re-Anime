@@ -5,12 +5,14 @@ import 'package:re_anime_app/app/repository_container.dart';
 import 'package:re_anime_app/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:re_anime_app/blocs/authorization_by_another_bloc/auth_by_another_bloc.dart';
 import 'package:re_anime_app/blocs/logout_bloc/log_out_bloc.dart';
+import 'package:re_anime_app/blocs/settings_cubit/settings_cubit.dart';
 import 'package:re_anime_app/features/anime_details/bloc/anime_details_bloc.dart';
 import 'package:re_anime_app/features/anime_lists/bloc/anime_lists_bloc.dart';
 import 'package:re_anime_app/features/auth/login/bloc/login_bloc.dart';
 import 'package:re_anime_app/features/auth/registration/bloc/registration_bloc.dart';
 import 'package:re_anime_app/features/search/bloc/search_anime_bloc.dart';
 import 'package:re_anime_app/repositories/anime/anime.dart';
+import 'package:re_anime_app/repositories/settings/settings.dart';
 import 'package:re_anime_app/repositories/user/user.dart';
 
 class AppInitializer extends StatelessWidget {
@@ -30,7 +32,9 @@ class AppInitializer extends StatelessWidget {
           RepositoryProvider<AnimeRepositoryInterface>(
               create: (context) => repositoryContainer.animeRepository),
           RepositoryProvider<UserRepositoryInterface>(
-              create: (context) => repositoryContainer.userRepository)
+              create: (context) => repositoryContainer.userRepository),
+          RepositoryProvider<SettingsRepositoryInterface>(
+              create: (context) => repositoryContainer.settingsRepository)
         ],
         child: BlocProvider(
           create: (context) => AuthenticationBloc(
@@ -71,7 +75,13 @@ class AppInitializer extends StatelessWidget {
                 create: (context) => SearchAnimeBloc(
                   animeRepository: context.read<AnimeRepositoryInterface>(),
                 ),
-              )
+              ),
+              BlocProvider(
+                create: (context) => SettingsCubit(
+                  settingsRepository:
+                      context.read<SettingsRepositoryInterface>(),
+                ),
+              ),
             ],
             child: child,
           ),

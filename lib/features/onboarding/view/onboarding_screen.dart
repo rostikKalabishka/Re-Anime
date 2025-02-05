@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:re_anime_app/blocs/settings_cubit/settings_cubit.dart';
 import 'package:re_anime_app/router/router.dart';
 import 'package:re_anime_app/ui/ui.dart';
 import '../model/onboarding_model.dart';
@@ -69,6 +71,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     vertical: 8, horizontal: 8),
                                 child: BaseButtonWidget(
                                   onPressed: () {
+                                    context
+                                        .read<SettingsCubit>()
+                                        .setOnboardingShown();
                                     AutoRouter.of(context).pushAndPopUntil(
                                         RegistrationRoute(),
                                         predicate: (route) => false);
